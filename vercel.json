@@ -14,8 +14,5 @@
       "src": "/(.*)",
       "dest": "/dist/$1"
     }
-  ],
-  "env": {
-    "CANVA_BACKEND_HOST": "@canva_backend_host"
-  }
+  ]
 } 
