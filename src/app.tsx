@@ -1,6 +1,7 @@
-import { Button, Select } from "@canva/app-ui-kit";
+import { Button, ImageCard, Checkbox } from "@canva/app-ui-kit";
 import { upload } from "@canva/asset";
-import { addElementAtPoint } from "@canva/design";
+import type { ImageDragConfig } from "@canva/design";
+import { addElementAtPoint, ui } from "@canva/design";
 import { useState } from "react";
 import * as styles from "styles/components.css";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
@@ -12,73 +13,53 @@ export const App = () => {
   const [selectedType, setSelectedType] = useState("Post");
   const [showPreview, setShowPreview] = useState(true);
 
-  // Map each platform and type to a different image URL
+  // Map each platform and type to a different image URL and size
   const platformTypeImages = {
     Instagram: {
-      Post: "https://i.ibb.co/xKB5QFKH/Instagram-Post.png",
-      Story: "https://i.ibb.co/rGDS6cBZ/Instagram-Story.png",
-      Reel: "https://i.ibb.co/jPLgHhW0/Instagram-Reel.png",
+      Post: {
+        url: "https://i.ibb.co/xKB5QFKH/Instagram-Post.png",
+        size: { width: 1080, height: 1350 },
+      },
+      Story: {
+        url: "https://i.ibb.co/rGDS6cBZ/Instagram-Story.png",
+        size: { width: 1080, height: 1920 },
+      },
+      Reel: {
+        url: "https://i.ibb.co/jPLgHhW0/Instagram-Reel.png",
+        size: { width: 1080, height: 1920 },
+      },
     },
     Twitter: {
-      Post: "https://i.ibb.co/PsdFrzVB/Twitter-Post.png",
-      Cover: "https://i.ibb.co/wj0R63R/Twitter-Cover.png",
+      Post: {
+        url: "https://i.ibb.co/PsdFrzVB/Twitter-Post.png",
+        size: { width: 1600, height: 900 },
+      },
+      Cover: {
+        url: "https://i.ibb.co/wj0R63R/Twitter-Cover.png",
+        size: { width: 1500, height: 500 },
+      },
     },
     Linkedin: {
-      Post: "https://i.ibb.co/1B6GwL1/Linked-In-Post.png",
-      Video: "https://i.ibb.co/jPLgHhW0/Instagram-Reel.png",
-      Cover: "https://i.ibb.co/WNvY8VFm/Linked-In-Banner.png",
+      Post: {
+        url: "https://i.ibb.co/1B6GwL1/Linked-In-Post.png",
+        size: { width: 1200, height: 627 },
+      },
+      Video: {
+        url: "https://i.ibb.co/jPLgHhW0/Instagram-Reel.png",
+        size: { width: 1920, height: 1080 },
+      },
+      Cover: {
+        url: "https://i.ibb.co/WNvY8VFm/Linked-In-Banner.png",
+        size: { width: 1584, height: 396 },
+      },
     },
-  };
+  } as const;
 
-  const socialMediaOptions = [
-    {
-      value: "Instagram",
-      label: (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            fontSize: "18px",
-          }}
-        >
-          <FaInstagram style={{ color: "#E4405F", fontSize: "24px" }} />
-          <span style={{ fontWeight: "bold" }}>Instagram</span>
-        </div>
-      ),
-    },
-    {
-      value: "Linkedin",
-      label: (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            fontSize: "18px",
-          }}
-        >
-          <FaLinkedin style={{ color: "#1877F2", fontSize: "24px" }} />
-          <span style={{ fontWeight: "bold" }}>LinkedIn</span>
-        </div>
-      ),
-    },
-    {
-      value: "Twitter",
-      label: (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            fontSize: "18px",
-          }}
-        >
-          <FaXTwitter style={{ color: "#1DA1F2", fontSize: "24px" }} />
-          <span style={{ fontWeight: "bold" }}>X</span>
-        </div>
-      ),
-    },
+  const platformTabs: { value: string; label: string; icon?: JSX.Element }[] = [
+    { value: "All", label: "All" },
+    { value: "Instagram", label: "Instagram", icon: <FaInstagram style={{ color: "#E4405F", fontSize: 22 }} /> },
+    { value: "Linkedin", label: "LinkedIn", icon: <FaLinkedin style={{ color: "#1877F2", fontSize: 22 }} /> },
+    { value: "Twitter", label: "X", icon: <FaXTwitter style={{ color: "#1DA1F2", fontSize: 22 }} /> },
   ];
 
   const handlePlatformChange = (value) => {
@@ -93,16 +74,17 @@ export const App = () => {
   };
 
   const handleAddToDesign = async () => {
-    const imageUrl = platformTypeImages[selectedPlatform][selectedType];
+    const { url, size } = platformTypeImages[selectedPlatform][selectedType];
     try {
-      console.log("Uploading image:", imageUrl);
       const result = await upload({
         type: "image",
         mimeType: "image/png",
-        url: imageUrl,
-        thumbnailUrl: imageUrl
+        url,
+        thumbnailUrl: url,
+        aiDisclosure: "none",
+        width: size.width,
+        height: size.height,
       });
-      console.log("Upload result:", result);
 
       if (!result || !result.ref) {
         throw new Error("Invalid upload result");
@@ -116,66 +98,146 @@ export const App = () => {
           decorative: false,
         },  
       });
-      console.log("Image added to design");
     } catch (error) {
       console.error("Error adding image:", error);
     }
   };
 
+  const onDragStart = (event: React.DragEvent<HTMLElement>) => {
+    const { url, size } = platformTypeImages[selectedPlatform][selectedType];
+    const dragData: ImageDragConfig = {
+      type: "image",
+      resolveImageRef: () =>
+        upload({
+          type: "image",
+          mimeType: "image/png",
+          url,
+          thumbnailUrl: url,
+          aiDisclosure: "none",
+          width: size.width,
+          height: size.height,
+        }),
+      previewUrl: url,
+      previewSize: { width: size.width, height: size.height },
+      fullSize: { width: size.width, height: size.height },
+    };
+    if (ui.startDragToPoint) {
+      ui.startDragToPoint(event, dragData);
+    } else if (ui.startDragToCursor) {
+      ui.startDragToCursor(event, dragData);
+    }
+  };
+
   return (
     <div className={styles.scrollContainer}>
-      <div className={styles}>
-        <p
-          style={{
-            textAlign: "center",
-            fontWeight: "bold",
-            marginBottom: "15px",
-          }}
-        >
-          Select Platform
-        </p>
-        <div className={styles.dropdownContainer}>
-          <Select
-            label="Select Platform"
-            value={selectedPlatform}
-            options={socialMediaOptions}
-            onChange={handlePlatformChange}
-          />
+      <div className={styles.scrollContainer} style={{ marginLeft: -50 }}>
+        <div style={{ position: "relative" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              margin: 0,
+              paddingBottom: 8,
+              overflowX: "auto",
+              whiteSpace: "nowrap",
+              paddingRight: 28,
+            }}
+          >
+          {platformTabs.map((tab) => {
+            const isActive = selectedPlatform === tab.value;
+            return (
+              <span key={tab.value} style={{ display: "inline-block" }}>
+                <Button variant={isActive ? "contrast" : "secondary"} onClick={() => handlePlatformChange(tab.value)}>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    {tab.icon}
+                    {tab.label}
+                  </span>
+                </Button>
+              </span>
+            );
+          })}
+          </div>
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              right: 2,
+              top: 0,
+              bottom: 8,
+              width: 24,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              pointerEvents: "none",
+              background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.06))",
+              borderRadius: 6,
+            }}
+          >
+            <span style={{ fontSize: 36, opacity: 0.6 }}>›</span>
+          </div>
         </div>
 
-        {selectedPlatform && (
-          <div className={styles.buttonContainer}>
-            {Object.keys(platformTypeImages[selectedPlatform]).map((type) => (
-              <Button
-                key={type}
-                className={styles.button}
-                onClick={() => handleTypeSelect(type)}
-              >
-                {type}
-              </Button>
-            ))}
+        {(
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 12 }}>
+            {(selectedPlatform === "All"
+              ? Object.keys(platformTypeImages).flatMap((platform) =>
+                  Object.keys(platformTypeImages[platform]).map((type) => ({ platform, type }))
+                )
+              : Object.keys(platformTypeImages[selectedPlatform]).map((type) => ({ platform: selectedPlatform, type }))
+            ).map(({ platform, type }) => {
+              const meta = platformTypeImages[platform][type];
+              const isActive = selectedPlatform === platform && selectedType === type;
+              return (
+                <div
+                  key={`${platform}-${type}`}
+                  onClick={() => {
+                    setSelectedPlatform(platform);
+                    handleTypeSelect(type);
+                  }}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 10,
+                    cursor: "pointer",
+                    padding: "8px 6px",
+                    borderRadius: 8,
+                    outline: isActive ? "2px solid var(--ui-kit-color-typography-secondary)" : "none",
+                  }}
+                >
+                  <Checkbox checked={isActive} readOnly />
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: 12 }}>{`${platform} ${type}`}</div>
+                    <div style={{ fontSize: 12, opacity: 0.7 }}>{`${meta.size.width} × ${meta.size.height} px`}</div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
 
         {showPreview && selectedPlatform && selectedType && (
           <div className={styles.previewContainer}>
-            <img
-              src={platformTypeImages[selectedPlatform][selectedType]}
-              alt="Preview"
-              className={styles.previewImage}
-            />
-            <Button
-              className={styles.addButton}
-              onClick={handleAddToDesign}
+            <div
               style={{
-                marginTop: "26px",
-                padding: "12px 24px",
-                backgroundColor: "#3498DB",
-                color: "#0910",
-                borderRadius: "8px",
-                cursor: "pointer",
-                transition: "background-color 0.3s",
+                borderRadius: 12,
+                padding: 8,
+                boxShadow: "0 0 0 1px var(--ui-kit-color-typography-quaternary)",
               }}
+            >
+              <ImageCard
+              ariaLabel="Add image to design"
+              alt={`${selectedPlatform} ${selectedType} preview`}
+              thumbnailUrl={platformTypeImages[selectedPlatform][selectedType].url}
+              onDragStart={onDragStart}
+              onClick={handleAddToDesign}
+              />
+            </div>
+            <div style={{ marginTop: 8, fontSize: 12, opacity: 0.7 }}>
+              {platformTypeImages[selectedPlatform][selectedType].size.width} × {platformTypeImages[selectedPlatform][selectedType].size.height} px
+            </div>
+            <Button
+              variant="secondary"
+              onClick={handleAddToDesign}
             >
               Add to Design
             </Button>

@@ -43,8 +43,6 @@
   overflow-y: scroll;
   height: 100%;
   padding: var(--ui-kit-space-4);
-  /* background-color: #f0f4f8; */
-  background-color: #e3f2fd;
 }
 
 .dropdownContainer {
@@ -147,8 +145,6 @@
   align-items: center;
   margin-top: 20px;
   padding: 20px;
-  background: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   max-width: 400px;
   margin: 20px auto;
