@@ -241,7 +241,7 @@ export const App = () => {
                   padding: "8px 6px",
                   borderRadius: 8,
                   outline: isActive
-                    ? "2px solid var(--ui-kit-color-typography-secondary)"
+                    ? "2px solid var(--ui-kit-color-content-subtle-fg)"
                     : "none",
                 }}
                 role="button"
@@ -278,7 +278,7 @@ export const App = () => {
                 borderRadius: 12,
                 padding: 8,
                 boxShadow:
-                  "0 0 0 1px var(--ui-kit-color-typography-quaternary)",
+                  "0 0 0 1px var(--ui-kit-color-content-placeholder-fg)",
               }}
             >
               <ImageCard

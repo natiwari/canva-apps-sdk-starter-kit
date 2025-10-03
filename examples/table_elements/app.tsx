@@ -54,7 +54,7 @@ const CellElement = ({
   return (
     <Rows spacing="1u">
       <Title size="small">Cell #{index}</Title>
-      <Columns spacing="1u">
+      <Columns spacing="1u" alignY="stretch">
         <Column width="1/2">
           <FormField
             label="Row position"
@@ -84,7 +84,7 @@ const CellElement = ({
           />
         </Column>
       </Columns>
-      <Columns spacing="1u">
+      <Columns spacing="1u" alignY="stretch">
         <Column width="1/2">
           <FormField
             label="rowSpan"
@@ -120,7 +120,7 @@ const CellElement = ({
           />
         </Column>
       </Columns>
-      <Columns spacing="1u">
+      <Columns spacing="1u" alignY="stretch">
         <Column width="content">
           <FormField
             label="Text content"
@@ -188,7 +188,7 @@ export const App = () => {
         {(tableState.error || submissionError) && (
           <Alert tone="critical">{tableState.error || submissionError}</Alert>
         )}
-        <Columns spacing="3u">
+        <Columns spacing="3u" alignY="stretch">
           <Column width="1/2">
             <FormField
               label="Total rows"

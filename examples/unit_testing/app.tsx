@@ -79,7 +79,7 @@ export const App = () => {
         </div>
         {/* === These buttons are used in the unit test to demonstrate checking for parameters passed to Canva Apps APIs === */}
         <Title>Open External Link</Title>
-        <Columns spacing="1u">
+        <Columns spacing="1u" alignY="stretch">
           <Column>
             <Button
               stretch
