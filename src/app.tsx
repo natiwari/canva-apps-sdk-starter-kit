@@ -19,49 +19,73 @@ export const App = () => {
   const platformTypeImages = {
     Instagram: {
       Post: {
-        url: "https://i.ibb.co/xKB5QFKH/Instagram-Post.png",
+        url: "https://i.ibb.co/ZpH762k7/Instagram-Post.png",
         size: { width: 1080, height: 1350 },
       },
       Story: {
-        url: "https://i.ibb.co/rGDS6cBZ/Instagram-Story.png",
+        url: "https://i.ibb.co/GvsDLq5v/Instagram-Story.png",
         size: { width: 1080, height: 1920 },
       },
       Reel: {
-        url: "https://i.ibb.co/jPLgHhW0/Instagram-Reel.png",
+        url: "https://i.ibb.co/S4FDVyv2/Instagram-Reel.png",
         size: { width: 1080, height: 1920 },
       },
     },
     Twitter: {
       Post: {
-        url: "https://i.ibb.co/PsdFrzVB/Twitter-Post.png",
+        url: "https://i.ibb.co/8G17FDj/Twitter-Post.png",
         size: { width: 1600, height: 900 },
       },
       Cover: {
-        url: "https://i.ibb.co/wj0R63R/Twitter-Cover.png",
+        url: "https://i.ibb.co/rRq58Ng9/Twitter-Cover.png",
         size: { width: 1500, height: 500 },
       },
     },
     Linkedin: {
       Post: {
-        url: "https://i.ibb.co/1B6GwL1/Linked-In-Post.png",
-        size: { width: 1200, height: 627 },
+        url: "https://i.ibb.co/bRPWRZBC/Linked-In-Post.png",
+        size: { width: 1200, height: 1200 },
       },
       Video: {
-        url: "https://i.ibb.co/jPLgHhW0/Instagram-Reel.png",
-        size: { width: 1920, height: 1080 },
+        url: "https://i.ibb.co/S4FDVyv2/Instagram-Reel.png",
+        size: { width: 1080, height: 1920 },
       },
       Cover: {
-        url: "https://i.ibb.co/WNvY8VFm/Linked-In-Banner.png",
+        url: "https://i.ibb.co/V0cmN5Vk/Linked-In-Banner.png",
         size: { width: 1584, height: 396 },
       },
     },
   } as const;
 
   const platformTabs: { value: string; label: string; icon?: JSX.Element }[] = [
-    { value: "All", label: intl.formatMessage({ defaultMessage: "All", description: "All platforms tab" }) },
-    { value: "Instagram", label: intl.formatMessage({ defaultMessage: "Instagram", description: "Instagram tab" }), icon: <FaInstagram style={{ color: "#E4405F", fontSize: 22 }} /> },
-    { value: "Linkedin", label: intl.formatMessage({ defaultMessage: "LinkedIn", description: "LinkedIn tab" }), icon: <FaLinkedin style={{ color: "#1877F2", fontSize: 22 }} /> },
-    { value: "Twitter", label: intl.formatMessage({ defaultMessage: "X", description: "X tab" }), icon: <FaXTwitter style={{ color: "#1DA1F2", fontSize: 22 }} /> },
+    {
+      value: "All",
+      label: intl.formatMessage({
+        defaultMessage: "All",
+        description: "All platforms tab",
+      }),
+    },
+    {
+      value: "Instagram",
+      label: intl.formatMessage({
+        defaultMessage: "Instagram",
+        description: "Instagram tab",
+      }),
+      icon: <FaInstagram style={{ color: "#E4405F", fontSize: 22 }} />,
+    },
+    {
+      value: "Linkedin",
+      label: intl.formatMessage({
+        defaultMessage: "LinkedIn",
+        description: "LinkedIn tab",
+      }),
+      icon: <FaLinkedin style={{ color: "#1877F2", fontSize: 22 }} />,
+    },
+    {
+      value: "Twitter",
+      label: intl.formatMessage({ defaultMessage: "X", description: "X tab" }),
+      icon: <FaXTwitter style={{ color: "#1DA1F2", fontSize: 22 }} />,
+    },
   ];
 
   const handlePlatformChange = (value) => {
@@ -164,7 +188,10 @@ export const App = () => {
               paddingRight: 28,
             }}
             ref={tabsContainerRef}
-            aria-label={intl.formatMessage({ defaultMessage: "Social media platforms", description: "Tablist label" })}
+            aria-label={intl.formatMessage({
+              defaultMessage: "Social media platforms",
+              description: "Tablist label",
+            })}
           >
             {platformTabs.map((tab) => {
               const isActive = selectedPlatform === tab.value;
@@ -174,7 +201,13 @@ export const App = () => {
                     variant={isActive ? "contrast" : "secondary"}
                     onClick={() => handlePlatformChange(tab.value)}
                   >
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    <span
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 8,
+                      }}
+                    >
                       {tab.icon}
                       {tab.label}
                     </span>
@@ -195,7 +228,8 @@ export const App = () => {
               alignItems: "center",
               justifyContent: "center",
               pointerEvents: "none",
-              background: "linear-gradient(90deg, transparent, rgba(0,0,0,0.06))",
+              background:
+                "linear-gradient(90deg, transparent, rgba(0,0,0,0.06))",
               borderRadius: 6,
             }}
           >
@@ -257,7 +291,10 @@ export const App = () => {
                 <Checkbox
                   label={`${platform} ${type}`}
                   description={intl.formatMessage(
-                    { defaultMessage: "{w} × {h} px", description: "Dimensions label" },
+                    {
+                      defaultMessage: "{w} × {h} px",
+                      description: "Dimensions label",
+                    },
                     { w: meta.size.width, h: meta.size.height },
                   )}
                   checked={isActive}
