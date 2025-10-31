@@ -9,7 +9,7 @@
     "start": "ts-node ./scripts/start/start.ts",
     "start:preview": "npm run start -- --preview",
     "extract": "formatjs extract \"src/**/*.{ts,tsx}\" --out-file dist/messages_en.json",
-    "build": "npm run build",
+    "build": "webpack --config webpack.config.ts && cp public/index.html dist/",
     "lint:types": "tsc",
     "lint": "eslint .",
     "lint:strict": "eslint . --max-warnings=0",
@@ -25,9 +25,7 @@
   "author": "Canva Pty Ltd.",
   "license": "SEE LICENSE IN LICENSE.md",
   "private": true,
-  "workspaces": [
-    "./examples/*"
-  ],
+  "workspaces": [],
   "dependencies": {
     "@canva/app-i18n-kit": "^1.1.1",
     "@canva/app-ui-kit": "^5.1.0",
