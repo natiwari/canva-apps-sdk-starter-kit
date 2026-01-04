@@ -14,13 +14,15 @@ export const App = () => {
   const [selectedType, setSelectedType] = useState("");
   const [showPreview, setShowPreview] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [preUploadedImage, setPreUploadedImage] = useState<QueuedImage | null>(null);
+  const [preUploadedImage, setPreUploadedImage] = useState<QueuedImage | null>(
+    null,
+  );
   const [isDragging, setIsDragging] = useState(false);
   const dragStartTimeRef = useRef<number | null>(null);
 
   // Map each platform and type to a different image URL and size
   const platformTypeImages = {
-    Instagram: { 
+    Instagram: {
       Post: {
         url: "https://i.ibb.co/CKw9qnkz/Instagram-Post.png",
         size: { width: 1080, height: 1350 },
@@ -84,7 +86,10 @@ export const App = () => {
     },
     {
       value: "X",
-      label: intl.formatMessage({ defaultMessage: "X", description: "X option" }),
+      label: intl.formatMessage({
+        defaultMessage: "X",
+        description: "X option",
+      }),
     },
   ];
 
@@ -118,9 +123,9 @@ export const App = () => {
               defaultMessage: "{platform} {type}",
               description: "Platform and content type label",
             },
-            { platform, type }
+            { platform, type },
           ),
-        }))
+        })),
       );
     }
     return Object.keys(platformTypeImages[selectedPlatform]).map((type) => ({
@@ -135,7 +140,10 @@ export const App = () => {
     if (selectedPlatform === "All") {
       // Find the option that matches our current selection
       const options = getContentTypeOptions();
-      return options.find(opt => opt.value.endsWith(`-${selectedType}`))?.value || "";
+      return (
+        options.find((opt) => opt.value.endsWith(`-${selectedType}`))?.value ||
+        ""
+      );
     }
     return selectedType;
   };
@@ -211,13 +219,13 @@ export const App = () => {
 
   const onDragStart = (event: React.DragEvent<HTMLElement>) => {
     const { url, size } = platformTypeImages[selectedPlatform][selectedType];
-    
+
     setIsDragging(true);
-    
+
     // Record drag start time for success message
     const dragStartTime = Date.now();
     dragStartTimeRef.current = dragStartTime;
-    
+
     const dragData: ImageDragConfig = {
       type: "image",
       resolveImageRef: async () => {
@@ -239,7 +247,7 @@ export const App = () => {
       previewSize: { width: size.width, height: size.height },
       fullSize: { width: size.width, height: size.height },
     };
-    
+
     if (ui.startDragToPoint) {
       ui.startDragToPoint(event, dragData);
     } else if (ui.startDragToCursor) {
@@ -274,12 +282,20 @@ export const App = () => {
 
       <Text size="medium" alignment="start" tone="secondary">
         {intl.formatMessage({
-          defaultMessage: "Select a content type to preview its safe zone, then add it to your design to use as guide",
+          defaultMessage:
+            "Select a content type to preview its safe zone, then add it to your design to use as guide",
           description: "Instructional text for users",
         })}
       </Text>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 16 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+          marginTop: 16,
+        }}
+      >
         <FormField
           label={intl.formatMessage({
             defaultMessage: "Platform",
@@ -323,7 +339,9 @@ export const App = () => {
                 defaultMessage: "Safe zone preview",
                 description: "Safe zone preview label",
               })}
-              control={(props) => <div {...props} style={{ height: 0, overflow: "hidden" }} />}
+              control={(props) => (
+                <div {...props} style={{ height: 0, overflow: "hidden" }} />
+              )}
             />
             <div
               draggable={true}
@@ -354,7 +372,7 @@ export const App = () => {
                   defaultMessage: "{platform} {type} preview",
                   description: "Preview image alt text",
                 },
-                { platform: selectedPlatform, type: selectedType }
+                { platform: selectedPlatform, type: selectedType },
               )}
             />
             <Button variant="primary" onClick={handleAddToDesign}>
