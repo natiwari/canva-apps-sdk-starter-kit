@@ -4,7 +4,7 @@ import type { QueuedImage } from "@canva/asset";
 import type { ImageDragConfig } from "@canva/design";
 import { addElementAtPoint, ui } from "@canva/design";
 import { useState, useEffect, useRef } from "react";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import * as styles from "styles/components.css";
 
 export const App = () => {
@@ -67,28 +67,32 @@ export const App = () => {
       value: "All",
       label: intl.formatMessage({
         defaultMessage: "All",
-        description: "All platforms option",
+        description:
+          "Option in platform dropdown to show all available platforms. Appears in the Platform select dropdown menu.",
       }),
     },
     {
       value: "Instagram",
       label: intl.formatMessage({
         defaultMessage: "Instagram",
-        description: "Instagram option",
+        description:
+          "Instagram platform option in the Platform dropdown. Appears as a selectable option in the Platform select menu.",
       }),
     },
     {
       value: "Linkedin",
       label: intl.formatMessage({
         defaultMessage: "LinkedIn",
-        description: "LinkedIn option",
+        description:
+          "LinkedIn platform option in the Platform dropdown. Appears as a selectable option in the Platform select menu.",
       }),
     },
     {
       value: "X",
       label: intl.formatMessage({
         defaultMessage: "X",
-        description: "X option",
+        description:
+          "X (formerly Twitter) platform option in the Platform dropdown. Appears as a selectable option in the Platform select menu.",
       }),
     },
   ];
@@ -111,6 +115,38 @@ export const App = () => {
     setShowPreview(true);
   };
 
+  // Get translated content type label
+  const getContentTypeLabel = (type: string) => {
+    const typeLabels: Record<string, string> = {
+      Post: intl.formatMessage({
+        defaultMessage: "Post",
+        description:
+          "Content type option 'Post' in the Content type dropdown. Shown when a specific platform is selected. Represents a standard social media post.",
+      }),
+      Story: intl.formatMessage({
+        defaultMessage: "Story",
+        description:
+          "Content type option 'Story' in the Content type dropdown. Shown when a specific platform is selected. Represents a social media story format.",
+      }),
+      Reel: intl.formatMessage({
+        defaultMessage: "Reel",
+        description:
+          "Content type option 'Reel' in the Content type dropdown. Shown when a specific platform is selected. Represents a short-form video reel format.",
+      }),
+      Video: intl.formatMessage({
+        defaultMessage: "Video",
+        description:
+          "Content type option 'Video' in the Content type dropdown. Shown when a specific platform is selected. Represents a video content format.",
+      }),
+      Cover: intl.formatMessage({
+        defaultMessage: "Cover",
+        description:
+          "Content type option 'Cover' in the Content type dropdown. Shown when a specific platform is selected. Represents a cover image or banner format.",
+      }),
+    };
+    return typeLabels[type] || type;
+  };
+
   // Get available content types based on selected platform
   const getContentTypeOptions = () => {
     if (selectedPlatform === "All") {
@@ -121,16 +157,17 @@ export const App = () => {
           label: intl.formatMessage(
             {
               defaultMessage: "{platform} {type}",
-              description: "Platform and content type label",
+              description:
+                "Combined platform and content type label shown in Content type dropdown when 'All' is selected in Platform dropdown. Format: 'PlatformName ContentTypeName' (e.g., 'Instagram Post', 'LinkedIn Video'). {platform} is the name of the social media platform (Instagram, LinkedIn, or X). {type} is the translated content type (Post, Story, Reel, Video, or Cover).",
             },
-            { platform, type },
+            { platform, type: getContentTypeLabel(type) },
           ),
         })),
       );
     }
     return Object.keys(platformTypeImages[selectedPlatform]).map((type) => ({
       value: type,
-      label: type,
+      label: getContentTypeLabel(type),
     }));
   };
 
@@ -195,14 +232,22 @@ export const App = () => {
       });
 
       if (!result || !result.ref) {
-        throw new Error("Invalid upload result");
+        // Use error code instead of translated string from API
+        throw new Error("UPLOAD_FAILED");
       }
 
       await addElementAtPoint({
         type: "image",
         ref: result.ref,
         altText: {
-          text: `Uploaded ${selectedType} image for ${selectedPlatform}`,
+          text: intl.formatMessage(
+            {
+              defaultMessage: "Uploaded {type} image for {platform}",
+              description:
+                "Accessibility text describing the uploaded image. Used by screen readers. Format: 'Uploaded [ContentType] image for [PlatformName]' (e.g., 'Uploaded Post image for Instagram'). {type} is the content type (Post, Story, Reel, Video, or Cover). {platform} is the platform name (Instagram, LinkedIn, or X).",
+            },
+            { type: selectedType, platform: selectedPlatform },
+          ),
           decorative: false,
         },
       });
@@ -212,8 +257,12 @@ export const App = () => {
       setTimeout(() => {
         setShowSuccessAlert(false);
       }, 3000);
-    } catch {
-      // Error handling - could show error alert in future
+    } catch (error) {
+      // Error handling - use status codes/identifiers instead of API error messages
+      // In future, could show localized error alert based on error code
+      const _errorCode =
+        error instanceof Error ? error.message : "UNKNOWN_ERROR";
+      // Error code stored for future error handling - _errorCode is a status identifier, not user-facing text
     }
   };
 
@@ -273,20 +322,21 @@ export const App = () => {
     <div className={styles.scrollContainer} style={{ padding: 16 }}>
       {showSuccessAlert && (
         <Alert tone="positive" onDismiss={() => setShowSuccessAlert(false)}>
-          {intl.formatMessage({
-            defaultMessage: "Image added to design successfully.",
-            description: "Success message when image is added",
-          })}
+          <FormattedMessage
+            defaultMessage="Image added to design successfully."
+            description="Success notification message displayed at the top of the app when an image is successfully added to the design canvas. Appears after clicking 'Add to design' button or completing drag and drop. Auto-dismisses after 3 seconds."
+          />
         </Alert>
       )}
 
-      <Text size="medium" alignment="start" tone="secondary">
-        {intl.formatMessage({
-          defaultMessage:
-            "Select a content type to preview its safe zone, then add it to your design to use as guide",
-          description: "Instructional text for users",
-        })}
-      </Text>
+      <div style={{ marginTop: 24 }}>
+        <Text size="medium" alignment="start" tone="secondary">
+          <FormattedMessage
+            defaultMessage="Select a content type to preview its safe zone, then add it to your design to use as guide"
+            description="Instructional text displayed at the top of the app interface. Guides users on how to use the app: first select a content type to see its safe zone preview, then add it to their design. Appears below the success alert (if shown) or at the very top of the main content area."
+          />
+        </Text>
+      </div>
 
       <div
         style={{
@@ -299,7 +349,8 @@ export const App = () => {
         <FormField
           label={intl.formatMessage({
             defaultMessage: "Platform",
-            description: "Platform form field label",
+            description:
+              "Label for the Platform dropdown field. Appears above the Platform select dropdown. Users select a social media platform (Instagram, LinkedIn, X, or All) to filter available content types.",
           })}
           control={(props) => (
             <Select<string>
@@ -315,7 +366,8 @@ export const App = () => {
         <FormField
           label={intl.formatMessage({
             defaultMessage: "Content type",
-            description: "Content type form field label",
+            description:
+              "Label for the Content type dropdown field. Appears above the Content type select dropdown. Users select a content type (Post, Story, Reel, Video, or Cover) to preview its safe zone.",
           })}
           control={(props) => (
             <Select<string>
@@ -326,7 +378,8 @@ export const App = () => {
               options={getContentTypeOptions()}
               placeholder={intl.formatMessage({
                 defaultMessage: "Select",
-                description: "Content type select placeholder",
+                description:
+                  "Placeholder text shown in the Content type dropdown when no option is selected. Appears in gray text inside the select field. Prompt users to choose a content type.",
               })}
             />
           )}
@@ -337,7 +390,8 @@ export const App = () => {
             <FormField
               label={intl.formatMessage({
                 defaultMessage: "Safe zone preview",
-                description: "Safe zone preview label",
+                description:
+                  "Label for the safe zone preview section. Appears above the preview area showing the safe zone visualization. Displayed when a content type is selected.",
               })}
               control={(props) => (
                 <div {...props} style={{ height: 0, overflow: "hidden" }} />
@@ -370,7 +424,8 @@ export const App = () => {
               aria-label={intl.formatMessage(
                 {
                   defaultMessage: "{platform} {type} preview",
-                  description: "Preview image alt text",
+                  description:
+                    "Accessibility label for the safe zone preview image. Used by screen readers to describe the preview area. Format: '[PlatformName] [ContentType] preview' (e.g., 'Instagram Post preview'). {platform} is the name of the social media platform (Instagram, LinkedIn, or X). {type} is the content type (Post, Story, Reel, Video, or Cover).",
                 },
                 { platform: selectedPlatform, type: selectedType },
               )}
@@ -378,7 +433,8 @@ export const App = () => {
             <Button variant="primary" onClick={handleAddToDesign}>
               {intl.formatMessage({
                 defaultMessage: "Add to design",
-                description: "Add to design button label",
+                description:
+                  "Primary button label to add the selected safe zone image to the design canvas. Appears below the safe zone preview. Users click this button or drag the preview image to add it to their design.",
               })}
             </Button>
           </div>
