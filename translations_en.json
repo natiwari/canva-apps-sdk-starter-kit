@@ -1,0 +1,78 @@
+{
+  "5Muf0t": {
+    "defaultMessage": "LinkedIn",
+    "description": "LinkedIn platform option in the Platform dropdown. Appears as a selectable option in the Platform select menu."
+  },
+  "6aGj+L": {
+    "defaultMessage": "Instagram",
+    "description": "Instagram platform option in the Platform dropdown. Appears as a selectable option in the Platform select menu."
+  },
+  "9tNqrc": {
+    "defaultMessage": "Image added to design successfully.",
+    "description": "Success notification message displayed at the top of the app when an image is successfully added to the design canvas. Appears after clicking 'Add to design' button or completing drag and drop. Auto-dismisses after 3 seconds."
+  },
+  "DDqTpd": {
+    "defaultMessage": "Story",
+    "description": "Content type option 'Story' in the Content type dropdown. Shown when a specific platform is selected. Represents a social media story format."
+  },
+  "G09E95": {
+    "defaultMessage": "Select a content type to preview its safe zone, then add it to your design to use as guide",
+    "description": "Instructional text displayed at the top of the app interface. Guides users on how to use the app: first select a content type to see its safe zone preview, then add it to their design. Appears below the success alert (if shown) or at the very top of the main content area."
+  },
+  "PfyDit": {
+    "defaultMessage": "Cover",
+    "description": "Content type option 'Cover' in the Content type dropdown. Shown when a specific platform is selected. Represents a cover image or banner format."
+  },
+  "WW0t/d": {
+    "defaultMessage": "Uploaded {type} image for {platform}",
+    "description": "Accessibility text describing the uploaded image. Used by screen readers. Format: 'Uploaded [ContentType] image for [PlatformName]' (e.g., 'Uploaded Post image for Instagram'). {type} is the content type (Post, Story, Reel, Video, or Cover). {platform} is the platform name (Instagram, LinkedIn, or X)."
+  },
+  "YuvBHc": {
+    "defaultMessage": "Safe zone preview",
+    "description": "Label for the safe zone preview section. Appears above the preview area showing the safe zone visualization. Displayed when a content type is selected."
+  },
+  "bFBgWE": {
+    "defaultMessage": "X",
+    "description": "X (formerly Twitter) platform option in the Platform dropdown. Appears as a selectable option in the Platform select menu."
+  },
+  "dPKm7p": {
+    "defaultMessage": "Post",
+    "description": "Content type option 'Post' in the Content type dropdown. Shown when a specific platform is selected. Represents a standard social media post."
+  },
+  "k2Ao8r": {
+    "defaultMessage": "Video",
+    "description": "Content type option 'Video' in the Content type dropdown. Shown when a specific platform is selected. Represents a video content format."
+  },
+  "nt4v3r": {
+    "defaultMessage": "{platform} {type}",
+    "description": "Combined platform and content type label shown in Content type dropdown when 'All' is selected in Platform dropdown. Format: 'PlatformName ContentTypeName' (e.g., 'Instagram Post', 'LinkedIn Video'). {platform} is the name of the social media platform (Instagram, LinkedIn, or X). {type} is the translated content type (Post, Story, Reel, Video, or Cover)."
+  },
+  "o1AqEt": {
+    "defaultMessage": "Select",
+    "description": "Placeholder text shown in the Content type dropdown when no option is selected. Appears in gray text inside the select field. Prompt users to choose a content type."
+  },
+  "ooZJIe": {
+    "defaultMessage": "Add to design",
+    "description": "Primary button label to add the selected safe zone image to the design canvas. Appears below the safe zone preview. Users click this button or drag the preview image to add it to their design."
+  },
+  "tjAakd": {
+    "defaultMessage": "All",
+    "description": "Option in platform dropdown to show all available platforms. Appears in the Platform select dropdown menu."
+  },
+  "uZRKZS": {
+    "defaultMessage": "Content type",
+    "description": "Label for the Content type dropdown field. Appears above the Content type select dropdown. Users select a content type (Post, Story, Reel, Video, or Cover) to preview its safe zone."
+  },
+  "wHFV/l": {
+    "defaultMessage": "Reel",
+    "description": "Content type option 'Reel' in the Content type dropdown. Shown when a specific platform is selected. Represents a short-form video reel format."
+  },
+  "z+HWIl": {
+    "defaultMessage": "Platform",
+    "description": "Label for the Platform dropdown field. Appears above the Platform select dropdown. Users select a social media platform (Instagram, LinkedIn, X, or All) to filter available content types."
+  },
+  "zH+zXN": {
+    "defaultMessage": "{platform} {type} preview",
+    "description": "Accessibility label for the safe zone preview image. Used by screen readers to describe the preview area. Format: '[PlatformName] [ContentType] preview' (e.g., 'Instagram Post preview'). {platform} is the name of the social media platform (Instagram, LinkedIn, or X). {type} is the content type (Post, Story, Reel, Video, or Cover)."
+  }
+}

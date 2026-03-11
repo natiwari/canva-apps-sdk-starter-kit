@@ -24,39 +24,40 @@ export const App = () => {
   const platformTypeImages = {
     Instagram: {
       Post: {
-        url: "https://i.ibb.co/CKw9qnkz/Instagram-Post.png",
+        url: "https://static.wixstatic.com/media/19f976_55916ef88d6d40fc80cf5b0b0ddee3b2~mv2.png",
         size: { width: 1080, height: 1350 },
       },
       Story: {
-        url: "https://i.ibb.co/tTvywNK3/Instagram-Story.png",
+        url: "https://static.wixstatic.com/media/19f976_f6c79860208c41a080649200995ba52d~mv2.png",
         size: { width: 1080, height: 1920 },
       },
       Reel: {
-        url: "https://i.ibb.co/7JNX8ShT/Instagram-Reel.png",
+        url: "https://static.wixstatic.com/media/19f976_37a7240d4ab24bda9b6b122da541e708~mv2.png",
         size: { width: 1080, height: 1920 },
       },
     },
     X: {
       Post: {
-        url: "https://i.ibb.co/FLK5sbmQ/Twitter-Post.png",
+        url: "https://static.wixstatic.com/media/19f976_d2c033bcf1024b079f72541aa2c0e143~mv2.png",
         size: { width: 1600, height: 900 },
       },
       Cover: {
-        url: "https://i.ibb.co/nsM0YBKF/Twitter-Cover.png",
+        url: "https://static.wixstatic.com/media/19f976_7eb447757f484970bf05a6e3919b69d3~mv2.png",
+
         size: { width: 1500, height: 500 },
       },
     },
     Linkedin: {
       Post: {
-        url: "https://i.ibb.co/nqCyQ3bZ/Linked-In-Post.png",
+        url: "https://static.wixstatic.com/media/19f976_a0fd77c426304e05a5a097c73b6c5f9a~mv2.png",
         size: { width: 1200, height: 1200 },
       },
       Video: {
-        url: "https://i.ibb.co/CsSbBTPQ/Linked-In-Reel.png",
+        url: "https://static.wixstatic.com/media/19f976_25a91a592f17472bad8a919ba44f6faf~mv2.png",
         size: { width: 1080, height: 1920 },
       },
       Cover: {
-        url: "https://i.ibb.co/vWkXjwX/Linked-In-Banner.png",
+        url: "https://static.wixstatic.com/media/19f976_aa2cab4a0ce14b1e9cb8a3dd39cdaad3~mv2.png",
         size: { width: 1584, height: 396 },
       },
     },
